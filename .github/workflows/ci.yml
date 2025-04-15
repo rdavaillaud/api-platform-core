@@ -246,7 +246,7 @@ jobs:
         continue-on-error: true
       - name: Upload coverage results to Codecov
         if: matrix.coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           directory: build/logs/phpunit
           name: phpunit-php${{ matrix.php }}
@@ -325,7 +325,7 @@ jobs:
         continue-on-error: true
       - name: Upload coverage results to Codecov
         if: matrix.coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           directory: /tmp/build/logs/phpunit
           name: phpunit-php${{ matrix.php }}
@@ -406,7 +406,7 @@ jobs:
         continue-on-error: true
       - name: Upload coverage results to Codecov
         if: matrix.coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           directory: build/logs/behat
           name: behat-php${{ matrix.php }}
@@ -615,7 +615,7 @@ jobs:
           path: build/logs/behat
         continue-on-error: true
       - name: Upload coverage results to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           directory: build/logs/behat
           name: behat-php${{ matrix.php }}
@@ -705,7 +705,7 @@ jobs:
           path: build/logs/behat
         continue-on-error: true
       - name: Upload coverage results to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           directory: build/logs/behat
           name: behat-php${{ matrix.php }}
@@ -862,6 +862,8 @@ jobs:
           composer global link .
       - name: Clear test app cache
         run: tests/Fixtures/app/console cache:clear --ansi
+      - name: Patch phpunit
+        run: git apply --directory vendor/phpunit/phpunit .github/patches/phpunit.patch
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit --fail-on-deprecation --display-deprecations
 
@@ -906,7 +908,7 @@ jobs:
       - name: Clear test app cache
         run: tests/Fixtures/app/console cache:clear --ansi
       - name: Run PHPUnit tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --fail-on-deprecation
 
   behat-symfony-next:
     name: Behat (PHP ${{ matrix.php }}) (Symfony dev)
@@ -1158,7 +1160,7 @@ jobs:
         continue-on-error: true
       - name: Upload coverage results to Codecov
         if: matrix.coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           directory: build/logs/phpunit
           name: phpunit-php${{ matrix.php }}
